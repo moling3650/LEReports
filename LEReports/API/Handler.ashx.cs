@@ -55,6 +55,26 @@ namespace LEReports.API
                 case "GetReportFields":
                     sql = "Z_GetReportFields";
                     isProcedure = true;
+                    break;
+                case "GetChartsByReport":
+                    sql = "SELECT * FROM B_Chart WHERE report_code = @reportCode";
+                    break;
+                case "SaveChart":
+                    var id = json != null ? json["id"].ToObject<int>() : -1;
+                    if (id <= 0)
+                    {
+                        sql = "INSERT INTO B_Chart(type, report_code, title, label, value) VALUES(@type, @report_code, @title, @label, @value)";
+                    }
+                    else
+                    {
+                        sql = "UPDATE B_Chart SET type = @type, title = @title, label = @label, value = @value WHERE id = @id";
+                    }
+                    break;
+                case "GetChartTypes":
+                    sql = "SELECT * FROM B_ChartType";
+                    break;
+                case "DeleteChartById":
+                    sql = "DELETE FROM B_Chart WHERE id = @id";
                     break;   
                 default:
                     break;
